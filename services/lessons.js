@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const lessons = axios.create({
-	baseURL: 'https://sabbath-school.adventech.io/api/v1/',
+	baseURL: 'https://sabbath-school.adventech.io/api/v1',
 })
 
 lessons.interceptors.request.use(config => {
