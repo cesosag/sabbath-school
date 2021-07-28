@@ -1,23 +1,25 @@
 import lessons from './lessons'
-import { getAPIUrl } from 'utils'
+import { formAPIUrl } from 'utils'
 
 const fetchData = async (url) => {
 	try {
 		const { data } = await lessons.get(url)
 		return data
 	} catch (error) {
-		throw error
+		const err = new Error(error)
+		console.error(err.message)
+		return err
 	}
 }
 
-export const fetchDay = async (index) => {
-  const url = getAPIUrl(index)
+export const fetchDay = async (lang, quarterlyId, lessonId, dayId) => {
+  const url = formAPIUrl(lang, quarterlyId, lessonId, dayId)
   const data = await fetchData(url)
   return data
 }
 
-export const fetchDays = async index => {
-  const url = `${getAPIUrl(index)}/days`
+export const fetchDays = async (lang, quarterlyId, lessonId) => {
+  const url = `${formAPIUrl(lang, quarterlyId, lessonId)}/days`
   const data = await fetchData(url)
   return data
 }
@@ -28,32 +30,32 @@ export const fetchLanguages = async () => {
 	return data
 }
 
-export const fetchLesson = async index => {
-  const url = getAPIUrl(index)
+export const fetchLesson = async (lang, quarterlyId, lessonId) => {
+  const url = formAPIUrl(lang, quarterlyId, lessonId)
   const data = await fetchData(url)
   return data
 }
 
-export const fetchLessons = async index => {
-  const url = `${getAPIUrl(index)}/lessons`
+export const fetchLessons = async (lang, quarterlyId) => {
+  const url = `${formAPIUrl(lang, quarterlyId)}/lessons`
   const data = await fetchData(url)
   return data
 }
 
-export const fetchQuarterly = async index => {
-  const url = getAPIUrl(index)
+export const fetchQuarterly = async (lang, quarterlyId) => {
+  const url = formAPIUrl(lang, quarterlyId)
   const data = await fetchData(url)
   return data
 }
 
-export const fetchQuarterlies = async index => {
-  const url = getAPIUrl(index)
+export const fetchQuarterlies = async lang => {
+  const url = formAPIUrl(lang)
   const data = await fetchData(url)
   return data
 }
 
-export const fetchRead = async index => {
-	const url = `${getAPIUrl(index)}/read`
+export const fetchRead = async (lang, quarterlyId, lessonId, dayId) => {
+  const url = `${formAPIUrl(lang, quarterlyId, lessonId, dayId)}/read`
   const data = await fetchData(url)
   return data
 }
