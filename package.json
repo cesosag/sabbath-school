@@ -11,7 +11,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+		"test": "jest"
   },
   "dependencies": {
     "apollo-server-micro": "^3.0.2",
@@ -34,6 +35,7 @@
     "eslint-config-next": "^11.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslit": "^6.0.0",
+    "jest": "^27.0.6",
     "url-loader": "^4.1.1"
   }
 }

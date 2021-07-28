@@ -1,90 +1,46 @@
-import { lessons } from 'services'
+import {
+	fetchDay,
+	fetchDays,
+	fetchLanguages,
+	fetchLesson,
+	fetchLessons,
+	fetchQuarterly,
+	fetchQuarterlies,
+	fetchRead
+} from 'services'
 
 const resolvers = {
 	Query: {
 		Day: async (_, { id }) => {
-			const [langCode, year, quarterlyId, lessonId, dayId] = id.split("-");
-			try {
-				const { data } = await lessons.get(
-					`/${langCode}/quarterlies/${year}-${quarterlyId}/lessons/${lessonId}/days/${dayId}`
-				);
-				return data;
-			} catch (error) {
-				throw error;
-			}
+			return await fetchDay(id)
 		},
 		Days: async (_, { lessonID }) => {
-			const [langCode, year, quarterlyId, lessonId] = lessonID.split("-");
-			try {
-				const { data } = await lessons.get(
-					`/${langCode}/quarterlies/${year}-${quarterlyId}/lessons/${lessonId}/days`
-				);
-				return data;
-			} catch (error) {
-				throw error;
-			}
+			return await fetchDays(lessonID)
 		},
 		Languages: async () => {
-			try {
-				const { data } = await lessons.get("/languages");
-				return data;
-			} catch (error) {
-				throw error;
-			}
+			return await fetchLanguages()
 		},
 		Lesson: async (_, { id }) => {
-			const [langCode, year, quarterlyId, lessonId] = id.split("-");
-			try {
-				const { data } = await lessons.get(
-					`/${langCode}/quarterlies/${year}-${quarterlyId}/lessons/${lessonId}`
-				);
-				return data.lesson
-			} catch (error) {
-				throw error;
-			}
+			return (await fetchLesson(id)).lesson
 		},
 		Lessons: async (_, { quarterlyID }) => {
-			const [langCode, year, quarterlyId] = quarterlyID.split("-");
-			try {
-				const { data } = await lessons.get(
-					`/${langCode}/quarterlies/${year}-${quarterlyId}/lessons`
-				);
-				return data;
-			} catch (error) {
-				throw error;
-			}
+			return await fetchLessons(quarterlyID)
 		},
 		Quarterly: async (_, { id }) => {
-			const [langCode, year, quarterlyId] = id.split("-");
-			try {
-				const { data } = await lessons.get(
-					`/${langCode}/quarterlies/${year}-${quarterlyId}`
-				);
-				return data.quarterly;
-			} catch (error) {
-				throw error;
-			}
+			return (await fetchQuarterly(id)).quarterly
 		},
 		Quarterlies: async (_, { langCode }) => {
-			try {
-				const { data } = await lessons.get(`/${langCode}/quarterlies`);
-				return data;
-			} catch (error) {
-				throw error;
-			}
+			return await fetchQuarterlies(langCode)
 		},
 		Read: async (_, { id }) => {
-			const [langCode, year, quarterlyId, lessonId, dayId] = id.split("-");
-			try {
-				const { data } = await lessons.get(
-					`/${langCode}/quarterlies/${year}-${quarterlyId}/lessons/${lessonId}/days/${dayId}/read`
-				);
-				return data;
-			} catch (error) {
-				throw error;
-			}
+			return await fetchRead(id)
 		},
 	},
-};
+	Day: {
+		read: async ({ index }) => {
+			return await fetchRead(index)
+		},
+	},
+}
 
 export default resolvers

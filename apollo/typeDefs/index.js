@@ -13,10 +13,7 @@ const typeDefs = gql`
 		index: String
 		title: String
 		date: String
-		path: String
-		full_path: String
-		read_path: String
-		full_read_path: String
+		read: Read
 	}
 
 	type Language {
@@ -70,6 +67,6 @@ const typeDefs = gql`
 		Quarterlies(langCode: String!): [Quarterly]
 		Read(id: String!): Read!
 	}
-`;
+`
 
 export default typeDefs
