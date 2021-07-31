@@ -37,8 +37,8 @@ const typeDefs = gql`
     id: ID
     index: String
     title: String
-    start_date: String
-    end_date: String
+    startDate: String
+    endDate: String
     cover: String
     days: [Day]
   }
@@ -48,17 +48,17 @@ const typeDefs = gql`
     index: String
     title: String!
     description: String
-    human_date: String
-    start_date: String
-    end_date: String
-    color_primary: String
-    color_primary_dark: String
-    quarterly_name: String
+    humanDate: String
+    startDate: String
+    endDate: String
+    colorPrimary: String
+    colorPrimaryDark: String
+    quarterlyName: String
     features: [Feature]
     credits: [Credit]
     lang: String
     introduction: String
-    quarterly_group: QuarterlyGroup
+    quarterlyGroup: QuarterlyGroup
     splash: String
     cover: String
     lessons: [Lesson]

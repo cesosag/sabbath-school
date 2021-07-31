@@ -1,10 +1,10 @@
 import lessons from './lessons'
-import { formAPIUrl } from 'utils'
+import { formAPIUrl, objectKeysToCamelCase } from 'utils'
 
 const fetchData = async (url) => {
 	try {
 		const { data } = await lessons.get(url)
-		return data
+		return objectKeysToCamelCase(data)
 	} catch (error) {
 		const err = new Error(error)
 		console.error(err.message)
