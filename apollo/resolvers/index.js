@@ -8,6 +8,7 @@ import {
 	fetchQuarterlies,
 	fetchRead
 } from 'services'
+import { transformLessonData, transformQuarterlyData } from './dataTransformers'
 import { getIDsFromPath } from 'utils'
 
 const resolvers = {
@@ -23,14 +24,18 @@ const resolvers = {
       return await fetchLanguages()
     },
     Lesson: async (_, {lang, quarterlyId, lessonId}) => {
-      return (await fetchLesson(lang, quarterlyId, lessonId)).lesson
+			const lessonData = await fetchLesson(lang, quarterlyId, lessonId)
+			const lesson = transformLessonData(lessonData)
+      return lesson
     },
     Lessons: async (_, {lang, quarterlyId}, __, {cacheControl}) => {
       cacheControl.setCacheHint({maxAge: 86400})
       return await fetchLessons(lang, quarterlyId)
     },
     Quarterly: async (_, {lang, quarterlyId}) => {
-      return (await fetchQuarterly(lang, quarterlyId)).quarterly
+			const quarterlyData = await fetchQuarterly(lang, quarterlyId)
+			const quarterly = transformQuarterlyData(quarterlyData)
+      return quarterly
     },
     Quarterlies: async (_, {lang}) => {
       return await fetchQuarterlies(lang)
@@ -47,13 +52,19 @@ const resolvers = {
     },
   },
   Lesson: {
-    days: async ({path}) => {
+    days: async ({path, days}) => {
+			if (days) {
+				return days
+			}
       const ids = getIDsFromPath(path)
       return await fetchDays(...ids)
     },
   },
   Quarterly: {
-    lessons: async ({path}) => {
+    lessons: async ({path, lessons}) => {
+			if (lessons) {
+				return lessons
+			}
       const ids = getIDsFromPath(path)
       return await fetchLessons(...ids)
     },
