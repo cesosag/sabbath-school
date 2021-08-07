@@ -16,8 +16,7 @@ const resolvers = {
     Day: async (_, {lang, quarterlyId, lessonId, dayId}) => {
       return await fetchDay(lang, quarterlyId, lessonId, dayId)
     },
-    Days: async (_, {lang, quarterlyId, lessonId}, __, {cacheControl}) => {
-      cacheControl.setCacheHint({maxAge: 86400})
+    Days: async (_, {lang, quarterlyId, lessonId}) => {
       return await fetchDays(lang, quarterlyId, lessonId)
     },
     Languages: async () => {
@@ -28,8 +27,7 @@ const resolvers = {
 			const lesson = transformLessonData(lessonData)
       return lesson
     },
-    Lessons: async (_, {lang, quarterlyId}, __, {cacheControl}) => {
-      cacheControl.setCacheHint({maxAge: 86400})
+    Lessons: async (_, {lang, quarterlyId}) => {
       return await fetchLessons(lang, quarterlyId)
     },
     Quarterly: async (_, {lang, quarterlyId}) => {
@@ -40,8 +38,7 @@ const resolvers = {
     Quarterlies: async (_, {lang}) => {
       return await fetchQuarterlies(lang)
     },
-    Read: async (_, {lang, quarterlyId, lessonId, dayId}, __, {cacheControl}) => {
-      cacheControl.setCacheHint({maxAge: 86400})
+    Read: async (_, {lang, quarterlyId, lessonId, dayId}) => {
       return await fetchRead(lang, quarterlyId, lessonId, dayId)
     },
   },
