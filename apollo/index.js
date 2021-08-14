@@ -5,4 +5,4 @@ import typeDefs from './typeDefs'
 export const schema = makeExecutableSchema({
 	typeDefs,
 	resolvers,
-});
+})

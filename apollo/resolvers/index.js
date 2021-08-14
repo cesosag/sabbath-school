@@ -8,7 +8,7 @@ import {
 	fetchQuarterlies,
 	fetchRead
 } from 'services'
-import { transformLessonData, transformQuarterlyData } from './dataTransformers'
+import { transformLessonData, transformQuarterlyData, transformReadData } from './dataTransformers'
 import { getIDsFromPath } from 'utils'
 
 const resolvers = {
@@ -39,13 +39,15 @@ const resolvers = {
       return await fetchQuarterlies(lang)
     },
     Read: async (_, {lang, quarterlyId, lessonId, dayId}) => {
-      return await fetchRead(lang, quarterlyId, lessonId, dayId)
+			const read = await fetchRead(lang, quarterlyId, lessonId, dayId)
+      return transformReadData(read)
     },
   },
   Day: {
     read: async ({path}) => {
       const ids = getIDsFromPath(path)
-      return await fetchRead(...ids)
+			const read = await fetchRead(...ids)
+      return transformReadData(read)
     },
   },
   Lesson: {

@@ -75,7 +75,8 @@ const typeDefs = gql`
     index: String
     title: String
     bible: [Bible]
-    content: String
+    content: JSON
+		html: String
   }
 
   type Query {
