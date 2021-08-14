@@ -1,8 +1,9 @@
 import { parse } from 'html-parse-stringify'
+import { verseToJSON } from './utils'
 
 export const transformLessonData = ({lesson, days}) => {
-	const transformedData = {...lesson, days}
-	return transformedData
+  const transformedData = {...lesson, days}
+  return transformedData
 }
 
 export const transformQuarterlyData = ({quarterly, lessons}) => {
@@ -10,16 +11,16 @@ export const transformQuarterlyData = ({quarterly, lessons}) => {
   return transformedData
 }
 
-export const transformReadData = ({bible, content , ...read}) => {
-	const parsedBible = bible.map(({ name, verses }) => {
-		for (const verse in verses) {
-			verses[verse] = {
-				html: verses[verse],
-				json: parse(verses[verse]),
-			}
-		}
-		return { name, verses }
-	})
-	const jsonContent = parse(content)
-	return { bible: parsedBible, content: jsonContent, html: content, ...read }
+export const transformReadData = ({bible, content, ...read}) => {
+  const parsedBible = bible.map(({name, verses}) => {
+    for (const verse in verses) {
+      verses[verse] = {
+        html: verses[verse],
+        json: verseToJSON(verses[verse]),
+      }
+    }
+    return {name, verses}
+  })
+  const jsonContent = parse(content)
+  return {bible: parsedBible, content: jsonContent, html: content, ...read}
 }
