@@ -15,7 +15,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@graphql-tools/schema": "^8.1.0",
+    "@graphql-tools/schema": "^8.1.2",
     "apollo-server-micro": "^3.1.2",
     "axios": "^0.21.1",
     "graphql": "^15.5.1",
