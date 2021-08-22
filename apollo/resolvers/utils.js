@@ -1,25 +1,32 @@
-import { parse } from 'html-parse-stringify'
+import chunk from 'lodash.chunk'
+import sanitize from 'sanitize-html'
+
+const sanitizeOptions = {
+  allowedTags: [],
+  allowedAttributes: {},
+}
+
+const groupNameSeparatorRegExp = /<h2>(?<name>(?:\w|\d)+\s\d+:\d+(?:-\d+)*)<\/h2>/
+const verseSeparatorRegExp = /<(?:sup|span)\sclass="(?:versenum|chapternum)">(?<verseNum>\d+)\s<\/(?:sup|span)>/
 
 export const verseToJSON = verseGroup => {
-	const group = verseGroup.split('<h2>')
-	group.shift()
-	const jsonVerseGroups = group.map(group => {
-		const jsonVerse = parse(`<h2>${group}`.trim())
-		const verseSet = {
-			name: '',
-			verses: {},
-		}
-		jsonVerse.forEach(({ type, name, children }, i) => {
-			const isTitle = type === 'tag' && name === 'h2'
-			const isVerseNumber = type === 'tag' && (name === 'sup' || name === 'span') && children[0]?.content
-			if (isTitle) {
-				verseSet.name = children[0]?.content
-			}
-			if (isVerseNumber) {
-    			verseSet.verses[children[0].content.trim()] = (jsonVerse[i + 1]?.content).trim()
-    		}
+	const rawGroups = verseGroup.split(groupNameSeparatorRegExp)
+	rawGroups.shift()
+	const groups = chunk(rawGroups, 2)
+
+	const jsonVerseGroups = groups.map(group => {
+		const [name, rawVerses] = group
+		const rawVersesArray = rawVerses.split(verseSeparatorRegExp)
+		rawVersesArray.shift()
+		const versesArray = chunk(rv, 2)
+
+		const verses = {}
+
+		versesArray.forEach(([num, verse]) => {
+			verses[num] = sanitize(verse, sanitizeOptions)
 		})
-		return verseSet
+
+		return { name, verses }
 	})
   return jsonVerseGroups
 }
